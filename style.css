@@ -298,19 +298,37 @@ code {
     display: flex; justify-content: center; align-items: center;
 }
 
-/* To zostaje bez zmian, ale dla pewności wklejam */
+/* --- OKIENKO LOGOWANIA (PRZEZROCZYSTE) --- */
 .login-box {
-    background: rgba(255, 255, 255, 0.95); /* Prawie białe tło */
-    padding: 40px 30px;
-    border-radius: 20px;
+    /* 👇 Zmieniamy tło na przezroczyste */
+    background: transparent;
+    
+    /* 👇 Usuwamy cień i rozmycie pudełka */
+    box-shadow: none;
+    backdrop-filter: none;
+    
+    /* Reszta zostaje, żeby wyśrodkować elementy */
+    padding: 20px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    width: 80%;
+    width: 90%;
     max-width: 350px;
 }
-/* Reszta przycisków zostaje bez zmian */
+
+/* 👇 DODATKOWO: Dodajmy cień do napisów, żeby były czytelne na tle */
+.login-box h2, .login-box p {
+    color: #333; /* Ciemny kolor tekstu */
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8); /* Biała poświata wokół liter */
+}
+
+/* To zostaje bez zmian */
 .login-box input {
-    padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin: 10px 0; width: 80%;
+    padding: 12px;
+    border: 2px solid var(--primary); /* Różowa ramka */
+    border-radius: 10px;
+    margin: 15px 0;
+    width: 80%;
+    background: rgba(255, 255, 255, 0.8); /* Lekko białe tło pola, żeby było widać co się pisze */
+    text-align: center;
 }
 .login-box button {
     padding: 10px 20px; background: var(--primary); color: white;
