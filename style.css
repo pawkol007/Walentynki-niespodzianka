@@ -278,25 +278,41 @@ code {
 .function { color: #dcdcaa; } /* Żółty dla funkcji */
 .comment { color: #6a9955; font-style: italic; } /* Zielony komentarz */
 
-/* --- EKRAN LOGOWANIA --- */
+/* --- EKRAN LOGOWANIA (Tło na cały ekran) --- */
+/* --- EKRAN LOGOWANIA (PANCERNY) --- */
 #login-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: #000;
-    z-index: 9999; /* Musi być na wierzchu wszystkiego */
+    
+    /* 1. To jest najważniejsze - solidny kolor tła (taki jak tło misiów) */
+    background-color: #f3f0f5 !important; 
+    
+    /* 2. Obrazek na środku */
+    background-image: url('img/bubu.gif');
+    
+    background-size: contain;   /* Dopasuj rozmiar */
+    background-position: center; /* Wyśrodkuj */
+    background-repeat: no-repeat; /* Nie powtarzaj */
+    
+    z-index: 10000; /* Musi być wyżej niż wszystko inne (nawet serduszka) */
     display: flex; justify-content: center; align-items: center;
 }
+
+/* To zostaje bez zmian, ale dla pewności wklejam */
 .login-box {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.95); /* Prawie białe tło */
+    padding: 40px 30px;
+    border-radius: 20px;
     text-align: center;
-    box-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 80%;
+    max-width: 350px;
 }
+/* Reszta przycisków zostaje bez zmian */
 .login-box input {
-    padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin: 10px 0;
+    padding: 10px; border: 1px solid #ddd; border-radius: 5px; margin: 10px 0; width: 80%;
 }
 .login-box button {
     padding: 10px 20px; background: var(--primary); color: white;
-    border: none; border-radius: 5px; cursor: pointer;
+    border: none; border-radius: 5px; cursor: pointer; font-weight: bold;
 }
