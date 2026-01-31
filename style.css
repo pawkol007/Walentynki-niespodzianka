@@ -1,0 +1,279 @@
+:root {
+    --primary: #ff4d6d;
+    --secondary: #ff8fa3;
+    --bg-grad: linear-gradient(135deg, #fff0f3 0%, #fff5f8 100%);
+    --glass: rgba(255, 255, 255, 0.9); /* Bardziej białe tło */
+    --text: #590d22;
+}
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg-grad);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 50px;
+}
+
+/* TŁO I KONTENER */
+#hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+.bg-heart { position: absolute; top: -50px; opacity: 0.5; animation: fall linear forwards; }
+@keyframes fall { to { transform: translateY(110vh); } }
+.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+
+/* NAGŁÓWKI I TEKSTY */
+.text-center { text-align: center; }
+h1, h2 { font-family: 'Dancing Script', cursive; color: var(--primary); }
+h1 { font-size: 2.5rem; margin: 10px 0; }
+.subtitle { color: #888; margin-bottom: 15px; }
+.section-divider {
+    text-align: center; font-weight: bold; letter-spacing: 2px;
+    color: #cca8b1; margin: 40px 0 20px; font-size: 0.9rem;
+    border-bottom: 2px dashed #ecccd3; padding-bottom: 10px;
+}
+
+/* KARTY SZKLANE */
+.glass-panel {
+    background: var(--glass);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 2px solid white;
+    border-radius: 20px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.15);
+}
+
+/* LOSOWANIE CYTATU */
+.quote-box {
+    background: white; padding: 20px; border-radius: 15px;
+    margin: 20px 0; min-height: 60px;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px dashed var(--secondary);
+}
+#daily-quote { font-size: 1.1rem; font-weight: bold; font-style: italic; transition: opacity 0.3s; }
+
+/* PRZYCISKI */
+.action-btn {
+    background: var(--primary); color: white; border: none;
+    padding: 15px 30px; border-radius: 50px; font-size: 1rem;
+    font-weight: bold; cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); transition: transform 0.2s;
+}
+.action-btn:active { transform: scale(0.95); }
+.secondary-btn {
+    background: transparent; color: var(--primary);
+    border: 2px solid var(--primary); padding: 10px 20px;
+    border-radius: 50px; font-weight: bold; cursor: pointer; margin-bottom: 30px;
+}
+
+/* NOWOŚĆ: POLAROIDY */
+.polaroid {
+    background: white;
+    padding: 15px 15px 40px 15px; /* Duży padding na dole na tekst */
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    margin-bottom: 40px;
+    transform: rotate(-2deg); /* Lekki obrót */
+    transition: transform 0.3s;
+    position: relative;
+}
+.rotate-left { transform: rotate(-3deg); }
+.rotate-right { transform: rotate(3deg); }
+
+.polaroid:hover { transform: scale(1.02) rotate(0deg); z-index: 10; }
+
+.polaroid-img-container {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Kwadratowe zdjęcia */
+    overflow: hidden;
+    background: #f0f0f0;
+    margin-bottom: 10px;
+}
+.polaroid-img-container img {
+    width: 100%; height: 100%; object-fit: cover;
+}
+.handwritten {
+    font-family: 'Shadows Into Light', cursive; /* Czcionka jak pismo ręczne */
+    font-size: 1.4rem;
+    color: #333;
+    text-align: center;
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    left: 0;
+}
+
+/* BUCKET LIST */
+.bucket-list { list-style: none; padding: 0; text-align: left; }
+.bucket-list li {
+    padding: 10px 0; border-bottom: 1px solid #eee; font-size: 1.1rem;
+}
+.bucket-list li.done {
+    color: #888; text-decoration: line-through; opacity: 0.7;
+}
+
+/* POZOSTAŁE */
+.theme-header { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+.card-img { width: 100%; border-radius: 12px; }
+.caption { margin-top: 10px; font-size: 0.9rem; line-height: 1.4; }
+.signature { text-align: right; font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--primary); margin-top: 15px; }
+footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 40px; }
+.hidden-section { display: none; opacity: 0; transition: opacity 1s; }
+.hidden-section.visible { display: block; opacity: 1; }
+
+/* ANIMACJE */
+.fade-in { opacity: 0; transform: translateY(20px); transition: 0.8s; }
+.visible-el { opacity: 1; transform: translateY(0); }
+.bounce-in { animation: bounce 1s; }
+@keyframes bounce { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
+.confetti-bit { position: absolute; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; animation: pop 0.8s ease-out forwards; }
+@keyframes pop { to { transform: translate(var(--tx), var(--ty)); opacity: 0; } }
+
+/* --- MINI GALERIA (SIATKA) --- */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dwie kolumny o równej szerokości */
+    gap: 10px; /* Odstęp między zdjęciami */
+    margin-bottom: 10px;
+}
+
+.gallery-grid img {
+    width: 100%;
+    height: 150px; /* Stała wysokość, żeby było równo */
+    object-fit: contain; /* Zdjęcie wypełni ramkę (nie spłaszczy się) */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.05); /* Lekkie powiększenie po kliknięciu/najechaniu */
+}
+/* --- STYL LICZNIKA --- */
+.timer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.time-box {
+    background: rgba(255, 255, 255, 0.6);
+    padding: 10px;
+    border-radius: 10px;
+    min-width: 60px;
+    text-align: center;
+    border: 1px solid white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.time-box span {
+    display: block;
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: var(--primary);
+}
+
+.time-box .label {
+    font-size: 0.7rem;
+    color: #666;
+    margin-top: 2px;
+}
+
+/* --- STATYSTYKI RPG (Z Levelami) --- */
+.stat-row { margin-bottom: 20px; }
+
+/* Kontener na nazwę i level */
+.stat-info {
+    display: flex;
+    justify-content: space-between; /* To rozpycha napisy na lewo i prawo */
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.stat-name { 
+    font-weight: bold; 
+    font-size: 0.95rem; 
+}
+
+.stat-lvl {
+    font-weight: bold;
+    color: var(--primary); /* Kolor różowy */
+    font-family: 'Courier New', monospace; /* Czcionka "komputerowa" */
+    font-size: 0.85rem;
+}
+
+.progress-bar-bg {
+    width: 100%; height: 12px; background: #eee;
+    border-radius: 6px; overflow: hidden;
+    border: 1px solid #ddd;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-bar-fill {
+    height: 100%; background: linear-gradient(90deg, #ff8fa3, #ff4d6d);
+    border-radius: 6px;
+    animation: loadBar 2s ease-out forwards;
+}
+
+@keyframes loadBar { from { width: 0; } }
+
+/* --- KUPONY --- */
+.coupon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.coupon {
+    background: white;
+    border: 2px dashed var(--primary);
+    border-radius: 12px;
+    padding: 15px 5px;
+    text-align: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    user-select: none; /* Żeby nie zaznaczać tekstu przy klikaniu */
+}
+
+.coupon:active {
+    transform: scale(0.95);
+}
+
+/* Wygląd zużytego kuponu */
+.coupon.used {
+    background: #e0e0e0;
+    border-color: #999;
+    color: #999;
+    text-decoration: line-through;
+    pointer-events: none; /* Nie da się kliknąć drugi raz */
+    opacity: 0.7;
+}
+
+.coupon-icon { font-size: 2rem; margin-bottom: 5px; }
+.coupon-text { font-weight: bold; font-size: 0.85rem; line-height: 1.3; }
+
+/* --- KOD ŹRÓDŁOWY --- */
+.code-panel {
+    background: #1e1e1e; /* Ciemne tło jak w VS Code */
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    text-align: left; /* Kod musi być do lewej! */
+}
+
+pre { margin: 0; }
+code {
+    font-family: 'Courier New', monospace;
+    color: #d4d4d4;
+    font-size: 0.9rem;
+}
+
+/* Kolorowanie składni */
+.keyword { color: #c586c0; font-weight: bold; } /* Różowy dla if/while */
+.function { color: #dcdcaa; } /* Żółty dla funkcji */
+.comment { color: #6a9955; font-style: italic; } /* Zielony komentarz */

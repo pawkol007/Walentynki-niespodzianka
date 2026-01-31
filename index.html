@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dla Ciebie ❤️</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#fff0f3">
+
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="hearts-container"></div>
+
+    <div class="container">
+        
+        <header class="glass-panel text-center bounce-in">
+            <div class="icon-heart">❤️</div>
+            <h1>Cześć Kochanie!❤️</h1>
+            <p class="subtitle">Wylosuj swoją myśl na dziś:</p>
+            
+            <div id="quote-box" class="quote-box">
+                <p id="daily-quote">Kliknij poniżej...</p>
+            </div>
+
+            <button id="drawBtn" class="action-btn">🎲 Losuj wiadomość</button>
+        </header>
+        <section class="glass-panel text-center fade-in">
+    <h3>Jesteśmy razem już:</h3>
+    <div id="timer" class="timer">
+        <div class="time-box">
+            <span id="days">0</span>
+            <span class="label">Dni</span>
+        </div>
+        <div class="time-box">
+            <span id="hours">0</span>
+            <span class="label">Godz</span>
+        </div>
+        <div class="time-box">
+            <span id="minutes">0</span>
+            <span class="label">Min</span>
+        </div>
+    </div>
+</section>
+        <div class="text-center">
+            <button id="showContentBtn" class="secondary-btn">👇 Otwórz Nasz Świat 👇</button>
+        </div>
+
+        <main id="hidden-content" class="hidden-section">
+            
+            <section class="glass-panel fade-in">
+                <h2>Mój List do Ciebie</h2>
+                <div class="letter-text">
+                    <p>Hej skarbie,</p>
+                    <p>Skoro czytasz ten list, to pewnie zeskanowałaś kod QR. Chciałem, żebyś miała coś, co przypomni Ci o mnie w każdej chwili.</p>
+                    <p>Kocham Cię nie tylko za to, kim jesteś, ale też za to, kim ja jestem przy Tobie. Dziękuję za każdy wspólny mecz w DbD, za każdy seans filmowy, za każdą chwilę spędzoną razem i za to, że po prostu jesteś.</p>
+                    <p>Jesteś moim Player duo na zawsze.</p>
+                    <p class="signature">Kocham Cię,<br>Pawełek</p>
+                </div>
+            </section>
+
+            <div class="section-divider">NASZE TEMATY</div>
+
+            <div class="theme-card glass-panel fade-in">
+                <div class="theme-header">🎮 Gaming Duo</div>
+                <img src="img/debede.png" alt="Gaming" class="card-img">
+                <p class="caption">Wspólne naprawianie generatorów i ucieczki przed mordercą. Najlepszy team!</p>
+            </div>
+
+            <<div class="section-divider">📊 TWOJE STATYSTYKI</div>
+<section class="glass-panel fade-in">
+    
+    <div class="stat-row">
+        <div class="stat-info">
+            <span class="stat-name">Cierpliwość do mnie</span>
+            <span class="stat-lvl">Lvl: ∞</span> </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 100%;"></div>
+        </div>
+    </div>
+
+    <div class="stat-row">
+        <div class="stat-info">
+            <span class="stat-name">Skill w DbD</span>
+            <span class="stat-lvl">Lvl: 40 </span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 95%;"></div>
+        </div>
+    </div>
+
+    <div class="stat-row">
+        <div class="stat-info">
+            <span class="stat-name">Urok Osobisty</span>
+            <span class="stat-lvl">Lvl: BOSS</span> </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 100%; background: #ff4d6d; box-shadow: 0 0 10px #ff4d6d;"></div>
+        </div>
+    </div>
+
+    <div class="stat-row">
+        <div class="stat-info">
+            <span class="stat-name">Odporność na łaskotki</span>
+            <span class="stat-lvl">Lvl: 8</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width: 40%;"></div>
+        </div>
+    </div>
+
+</section>
+
+<div class="section-divider">🎁 ITEM SHOP (KUPONY)</div>
+<section class="glass-panel fade-in">
+    <p class="text-center" style="font-size: 0.9rem; color: #666; margin-bottom: 20px;">
+        Kliknij, aby użyć. Wyślij mi screena jako dowód! 📸
+    </p>
+    
+    <div class="coupon-grid">
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">💆‍♀️</div>
+            <div class="coupon-text">Masaż pleców<br>(30 min)</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">👑</div>
+            <div class="coupon-text">Karta:<br>"Masz Rację"</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🎮</div>
+            <div class="coupon-text">Carry w Grze<br>(Gramy do wygranej)</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🍕</div>
+            <div class="coupon-text">Wybierasz<br>Jedzenie</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🤫</div>
+            <div class="coupon-text">Ciche Dni<br>(Nie wkurzam Cię)</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🎟️</div>
+            <div class="coupon-text">Dzika Karta<br>(Twoje życzenie)</div>
+        </div>
+    </div>
+</section>
+
+            <div class="section-divider">📸 NASZ ALBUM</div>
+            <section class="photo-album">
+
+                <div class="theme-card glass-panel fade-in">
+    <div class="theme-header">🌍 Wrocław i Podróże</div>
+    
+    <div class="gallery-grid">
+        <img src="img/wroclaw1.jpg" alt="My na górze">
+        <img src="img/wroclaw2.jpg" alt="Krasnalek">
+        <img src="img/wroclaw3.jpg" alt="Zoo">
+        <img src="img/wroclaw4.jpg" alt="Takie tam w tramwaju">
+    </div>
+    <p class="caption">Tyle wspomnień w jednym miejscu :D . ✅</p>
+</div>
+
+                <div class="theme-card glass-panel fade-in">
+    <div class="theme-header">Photo-dump</div>
+    
+    <div class="gallery-grid">
+        <img src="img/dump1.jpg" alt="Impreza trwa!">
+        <img src="img/dump2.jpg" alt="hihi">
+        <img src="img/dump3.jpg" alt="To ja">
+        <img src="img/dump4.jpg" alt="Ja nie piję">
+    </div>
+    <p class="caption">Wiem że mnie pewnie zabijesz, ale co tam . ✅</p>
+</div>
+
+                <div class="polaroid fade-in rotate-right">
+                    <div class="polaroid-img-container">
+                        <img src="img/foto2.jpg" alt="My">
+                    </div>
+                    <p class="handwritten">Kolacja niespodzianka</p>
+                </div>
+
+                <div class="polaroid fade-in rotate-right">
+                    <div class="polaroid-img-container">
+                        <img src="img/foto5.jpg" alt="My">
+                    </div>
+                    <p class="handwritten">DINOLAND</p>
+                </div>
+
+                <div class="polaroid fade-in rotate-right">
+                    <div class="polaroid-img-container">
+                        <img src="img/foto6.jpg" alt="My">
+                    </div>
+                    <p class="handwritten">Pierwsza wspólna BIBA</p>
+                </div>
+
+                <div class="polaroid fade-in rotate-left">
+                    <div class="polaroid-img-container">
+                        <img src="img/foto3.jpg" alt="My">
+                    </div>
+                    <p class="handwritten">Moje ulubione zdjęcie z Tobą.</p>
+                </div>
+                
+                </section>
+
+            <div class="section-divider">✈️ NASZE PLANY</div>
+            <section class="glass-panel fade-in">
+                <ul class="bucket-list">
+                    <li class="done">✅ Zakochać się w sobie</li>
+                    <li class="done">✅ Pierwsza randka</li>
+                    <li class="done">✅ Przejść razem grę</li>
+                    <li class="done">✅ Uprawiać wspólną aktywność</li>
+                    <li class="done">✅ Gaming night</li>
+                    <li class="done">✅ Wspólna dieta</li>
+                    <li class="done">✅ Pójść na koncert</li>
+                    <li>⬜ Pojechać nad morze</li>
+                    <li>⬜ Pojechać nad jezioro</li>
+                    <li>⬜ Ślub</li>
+                    <li>⬜ Pójść na Rysy</li>
+                    <li>⬜ Pojechać do Krakowa</li>
+                    <li>⬜ Pójść do teatru</li>
+                    <li>⬜ Randka ze wspólnym gotowaniem</li>
+                    <li>⬜ Wspólny basen otwarty i termy</li>
+                    <li>⬜ Wspólny wyjazd do Japonii (może kiedyś?)</li>
+                    <li>⬜ Wyjechać do Ameryki</li>
+                    <li>⬜ Zamieszkać razem</li>
+                    <li>⬜ Mieć gaming room</li>
+                    <li>⬜ Mieć wspólne zwierzątko</li>
+                    <li>⬜ Zestarzeć się razem</li>
+                </ul>
+            </section>
+
+            <footer>
+                <p>Jesteś moim całym światem 🌍</p>
+            </footer>
+        </main>
+    </div>
+
+    <div class="section-divider">💻 SOURCE CODE</div>
+<section class="code-panel fade-in">
+    <pre><code>
+<span class="keyword">while</span> (alive) {
+  <span class="function">love</span>(you);
+  <span class="keyword">if</span> (sad) {
+    <span class="function">hug</span>(you);
+  }
+  <span class="comment">// Jesteś moim wyjątkiem</span>
+  <span class="comment">// w świecie pełnym błędów.</span>
+}
+    </code></pre>
+</section>
+
+    <script src="script.js"></script>
+</body>
+</html>
