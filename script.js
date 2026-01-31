@@ -128,3 +128,20 @@ function useCoupon(element) {
         alert("Kupon Aktywowany! 📸 Zrób teraz screena i wyślij mi go!");
     }
 }
+
+// --- PROSTE HASŁO ---
+function checkPassword() {
+    const password = document.getElementById('passwordInput').value;
+    const errorMsg = document.getElementById('error-msg');
+    
+    // 👇 TUTAJ USTAW SWOJE HASŁO (np. data poznania albo imię psa)
+    const secret = "17.10.2024"; 
+
+    if (password.toLowerCase() === secret) {
+        document.getElementById('login-overlay').style.display = 'none'; // Ukryj blokadę
+        // Opcjonalnie: Zagraj muzykę jeśli masz
+    } else {
+        errorMsg.style.display = 'block';
+        errorMsg.innerText = "Złe hasło! Spróbuj jeszcze raz. 🔒";
+    }
+}
