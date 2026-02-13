@@ -45,15 +45,28 @@ h1 { font-size: 2.5rem; margin: 10px 0; }
     box-shadow: 0 10px 30px rgba(255, 77, 109, 0.15);
 }
 
-/* LOSOWANIE CYTATU */
+/* LOSOWANIE CYTATU I POWODÓW */
 .quote-box {
-    background: white; padding: 20px; border-radius: 15px;
-    margin: 20px 0; min-height: 60px;
-    display: flex; align-items: center; justify-content: center;
-    border: 2px dashed var(--secondary);
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #ff8fa3;
 }
-#daily-quote { font-size: 1.1rem; font-weight: bold; font-style: italic; transition: opacity 0.3s; }
 
+#daily-quote,
+#love-reason {
+    font-size: 1.1rem;
+    font-weight: bold;
+    font-style: italic;
+    color: #590d22;
+    transition: opacity 0.3s;
+    margin: 0;
+}
 /* PRZYCISKI */
 .action-btn {
     background: var(--primary); color: white; border: none;
@@ -116,7 +129,19 @@ h1 { font-size: 2.5rem; margin: 10px 0; }
 /* POZOSTAŁE */
 .theme-header { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
 .card-img { width: 100%; border-radius: 12px; }
+.card-img-tall { height: 250px; object-fit: cover; }
 .caption { margin-top: 10px; font-size: 0.9rem; line-height: 1.4; }
+.coupon-info { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+.theme-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+.theme-grid .theme-card {
+    flex: 1 1 300px;
+    max-width: 400px;
+}
 .signature { text-align: right; font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--primary); margin-top: 15px; }
 footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 40px; }
 .hidden-section { display: none; opacity: 0; transition: opacity 1s; }
@@ -128,57 +153,107 @@ footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 40px; }
 .bounce-in { animation: bounce 1s; }
 @keyframes bounce { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
 .confetti-bit { position: absolute; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; animation: pop 0.8s ease-out forwards; }
-@keyframes pop { to { transform: translate(var(--tx), var(--ty)); opacity: 0; } }
+@keyframes pop {
+    0% { opacity: 1; transform: scale(1) translate(0,0); }
+    60% { opacity: 1; transform: scale(1.2) translate(var(--tx), calc(var(--ty) * 0.7)); }
+    100% { opacity: 0; transform: scale(0.8) translate(var(--tx), var(--ty)); }
+}
 
-/* --- MINI GALERIA (SIATKA) --- */
+/* --- MINI GALERIA (SIATKA 4x2 - KLASYCZNA) --- */
+
 .gallery-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Dwie kolumny o równej szerokości */
-    gap: 10px; /* Odstęp między zdjęciami */
-    margin-bottom: 10px;
+    grid-template-columns: 1fr 1fr; /* Dwie równe kolumny */
+    gap: 10px; /* Małe odstępy */
+    padding: 10px;
 }
 
+/* Pojedynczy kafelek */
+.gallery-grid > div {
+    position: relative; /* Ważne, żeby trzymać napis w środku */
+    height: 150px;      /* Stała wysokość (nie będzie podłużne) */
+    border-radius: 10px;
+    overflow: hidden;   /* Ucina wszystko co wystaje */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Zdjęcie na cały kafelek */
 .gallery-grid img {
     width: 100%;
-    height: 150px; /* Stała wysokość, żeby było równo */
-    object-fit: contain; /* Zdjęcie wypełni ramkę (nie spłaszczy się) */
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    height: 100%;
+    object-fit: contain; /* Wypełnia cały kwadrat, nie zniekształca */
+    display: block;
 }
 
-.gallery-grid img:hover {
-    transform: scale(1.05); /* Lekkie powiększenie po kliknięciu/najechaniu */
+/* NAPIS (Zawsze widoczny pasek na dole) */
+.gallery-grid p, 
+.gallery-grid .overlay {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    
+    background: rgba(0, 0, 0, 0.6) !important; /* Półprzezroczysty czarny pasek */
+    color: white !important; /* Biały tekst */
+    
+    margin: 0 !important;
+    padding: 5px 0 !important;
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 100; /* Musi być na wierzchu */
 }
-/* --- STYL LICZNIKA --- */
+/* --- STYL LICZNIKA (GLOW UP) --- */
 .timer {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin: 15px 0;
+    gap: 20px; /* Większe odstępy, żeby było luźniej */
+    margin: 30px 0;
 }
 
 .time-box {
-    background: rgba(255, 255, 255, 0.6);
-    padding: 10px;
-    border-radius: 10px;
-    min-width: 60px;
+    background: rgba(255, 255, 255, 0.95); /* Prawie białe tło */
+    padding: 15px 25px;
+    border-radius: 20px; /* Mocno zaokrąglone rogi */
+    min-width: 85px;
     text-align: center;
-    border: 1px solid white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    
+    /* Ozdoby */
+    border: 2px solid #ffe5ec; /* Bardzo jasna różowa ramka */
+    box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); /* Różowy cień pod spodem */
+    
+    /* Animacja pulsowania */
+    animation: pulse 2s infinite ease-in-out;
+}
+
+/* Żeby środkowy boks pulsował w innym tempie (fajny efekt) */
+.time-box:nth-child(2) {
+    animation-delay: 1s;
 }
 
 .time-box span {
     display: block;
-    font-weight: bold;
-    font-size: 1.4rem;
-    color: var(--primary);
+    font-weight: 800; /* Bardzo gruby tekst */
+    font-size: 2.2rem; /* Duże cyfry */
+    color: var(--primary); /* Różowy kolor */
+    line-height: 1.1;
+    text-shadow: 2px 2px 0px rgba(0,0,0,0.05); /* Lekki cień liter */
 }
 
 .time-box .label {
-    font-size: 0.7rem;
-    color: #666;
-    margin-top: 2px;
+    font-size: 0.75rem;
+    text-transform: uppercase; /* Wielkie litery */
+    letter-spacing: 2px; /* Rozstrzelone litery */
+    color: #888;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+/* Definicja animacji pulsowania */
+@keyframes pulse {
+    0% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); }
+    50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3); } /* Powiększenie */
+    100% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); }
 }
 
 /* --- STATYSTYKI RPG (Z Levelami) --- */
@@ -334,3 +409,39 @@ code {
     padding: 10px 20px; background: var(--primary); color: white;
     border: none; border-radius: 5px; cursor: pointer; font-weight: bold;
 }
+
+/* --- ROZWIJANE SEKCJE (DETAILS/SUMMARY) --- */
+
+details {
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+/* Styl nagłówka, w który się klika */
+summary {
+    cursor: pointer; /* Kursor rączki */
+    list-style: none; /* Usuwa domyślny trójkąt */
+    outline: none; /* Usuwa niebieską ramkę po kliknięciu */
+    user-select: none; /* Nie zaznacza tekstu przy klikaniu */
+    padding-bottom: 10px; /* Odstęp od zdjęć */
+}
+
+/* Usuwa trójkąt w Chrome/Safari */
+summary::-webkit-details-marker {
+    display: none;
+}
+
+/* Animacja strzałki po otwarciu */
+details[open] summary span {
+    display: inline-block;
+    transform: rotate(180deg);
+    transition: transform 0.3s;
+}
+
+/* Gdy zamknięte - strzałka normalnie */
+details:not([open]) summary span {
+    display: inline-block;
+    transform: rotate(0deg);
+    transition: transform 0.3s;
+}
+

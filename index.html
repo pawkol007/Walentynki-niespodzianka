@@ -11,6 +11,7 @@
     <meta name="theme-color" content="#fff0f3">
 
     <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;700&family=Shadows+Into+Light&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -24,22 +25,26 @@
     </div>
 </div>
 
-    <div id="hearts-container"></div>
+        <div id="hearts-container"></div>
 
-    <div class="container">
-        
-        <header class="glass-panel text-center bounce-in">
-            <div class="icon-heart">❤️</div>
-            <h1>Cześć Kochanie!❤️</h1>
-            <p class="subtitle">Wylosuj swoją myśl na dziś:</p>
-            
-            <div id="quote-box" class="quote-box">
-                <p id="daily-quote">Kliknij poniżej...</p>
-            </div>
-
-            <button id="drawBtn" class="action-btn">🎲 Losuj wiadomość</button>
-        </header>
-        <section class="glass-panel text-center fade-in">
+<div class="container">
+    
+   <header class="glass-panel text-center bounce-in">
+    <div class="icon-heart">❤️</div>
+    <h1>Cześć Kochanie!❤️</h1>
+    <p class="subtitle">Wylosuj swoją myśl na dziś:</p>
+    <div class="quote-box">
+        <p id="daily-quote">Kliknij poniżej...</p>
+    </div>
+    <button id="drawBtn" class="action-btn">🎲 Losuj wiadomość</button>
+    <div style="margin: 35px 20px; border-top: 2px dashed rgb(254, 254, 254); text-align: center;"></div>
+    <p class="subtitle" style="margin-top: 0;">Za co Cię kocham?</p>
+    <div class="quote-box">
+        <p id="love-reason">Kliknij przycisk poniżej...</p>
+    </div>
+    <button class="action-btn" onclick="showReason()">🎰 Losuj Powód</button>
+   </header>
+   <section class="glass-panel text-center fade-in">
     <h3>Jesteśmy razem już:</h3>
     <div id="timer" class="timer">
         <div class="time-box">
@@ -55,7 +60,7 @@
             <span class="label">Min</span>
         </div>
     </div>
-</section>
+   </section>
         <div class="text-center">
             <button id="showContentBtn" class="secondary-btn">👇 Otwórz Nasz Świat 👇</button>
         </div>
@@ -65,23 +70,48 @@
             <section class="glass-panel fade-in">
                 <h2>Mój List do Ciebie</h2>
                 <div class="letter-text">
-                    <p>Hej skarbie,</p>
-                    <p>Skoro czytasz ten list, to pewnie zeskanowałaś kod QR. Chciałem, żebyś miała coś, co przypomni Ci o mnie w każdej chwili.</p>
-                    <p>Kocham Cię nie tylko za to, kim jesteś, ale też za to, kim ja jestem przy Tobie. Dziękuję za każdy wspólny mecz w DbD, za każdy seans filmowy, za każdą chwilę spędzoną razem i za to, że po prostu jesteś.</p>
-                    <p>Jesteś moim Player duo na zawsze.</p>
-                    <p class="signature">Kocham Cię,<br>Pawełek</p>
+                    <p>Hej Skarbie😘,</p>
+                    <p>Jeśli to czytasz, to znaczy, że znalazłaś coś wyjątkowego.</p>
+                    <p>Chciałem zostawić Ci kilka słów, które zawsze będziesz mogła mieć przy sobie, przypomnienie, że jesteś dla mnie najważniejsza, nawet w zwykłe dni.</p>
+                    <p>Kocham Cię nie tylko za to, kim jesteś: za Twój uśmiech, mądrość i serce, ale też za to, kim ja staję się przy Tobie. Przy Tobie mogę być sobą, śmiać się do łez i czuć się naprawdę kochany.</p>
+                    <p>Dziękuję Ci za każdą wspólną chwilę: za nasze gry, filmowe maratony, śmiechy, przytulenia i wszystkie małe momenty, które sprawiają, że życie z Tobą jest najpiękniejszą przygodą.</p>
+                    <p>Jesteś moim domem. Moją bezpieczną przystanią. Moją codzienną radością i największym szczęściem.</p>
+                    <p>Nie wiem, co przyniesie życie, ale wiem jedno: chcę je przeżywać z Tobą, zawsze. Ramię w ramię. Na dobre i na złe.</p>
+                    <p class="signature">Kocham Cię.<br>Twój Paweł ❤️</p>
                 </div>
             </section>
 
             <div class="section-divider">NASZE TEMATY</div>
 
-            <div class="theme-card glass-panel fade-in">
-                <div class="theme-header">🎮 Gaming Duo</div>
-                <img src="img/debede.PNG" alt="Gaming" class="card-img">
-                <p class="caption">Wspólne naprawianie generatorów i ucieczki przed mordercą. Najlepszy team!</p>
-            </div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
 
-            <<div class="section-divider">📊 TWOJE STATYSTYKI</div>
+    <div class="theme-card glass-panel fade-in" style="flex: 1 1 300px; max-width: 400px;">
+        <div class="theme-header">🎮 Gaming Duo</div>
+        <img src="img/debede.PNG" alt="Gaming" class="card-img">
+        <p class="caption">Wspólne naprawianie generatorów i ucieczki przed mordercą. Najlepszy team!</p>
+    </div>
+
+    <div class="theme-card glass-panel fade-in" style="flex: 1 1 300px; max-width: 400px;">
+        <div class="theme-header">🍕 Gastro Faza</div>
+        <img src="img/gastro.JPG" alt="Jedzonko" class="card-img" style="height: 250px; object-fit: cover;">
+        <p class="caption">Kebabik, pizza i Starbucks. Nasza dieta składa się głównie z miłości... i pysznego żarcia! 🍔</p>
+    </div>
+
+    <div class="theme-card glass-panel fade-in" style="flex: 1 1 300px; max-width: 400px;">
+        <div class="theme-header">🎬 Kinomaniacy</div>
+        <img src="img/kino.PNG" alt="Filmy" class="card-img" style="height: 250px; object-fit: cover;">
+        <p class="caption">Czy to Wiedźmin, Batman czy TikToki do 3 rano – kanapa to nasze królestwo. 🍿</p>
+    </div>
+
+    <div class="theme-card glass-panel fade-in" style="flex: 1 1 300px; max-width: 400px;">
+        <div class="theme-header">🌍 Podróżnicy</div>
+        <img src="img/wroclaw1.JPG" alt="Podróże" class="card-img" style="height: 250px; object-fit: cover;">
+        <p class="caption">Nieważne czy Wrocław, czy wyjście do Żabki. Każda wyprawa z Tobą to przygoda! ✈️</p>
+    </div>
+
+</div>
+
+            <div class="section-divider">📊 TWOJE STATYSTYKI</div>
 <section class="glass-panel fade-in">
     
     <div class="stat-row">
@@ -162,33 +192,177 @@
         </div>
     </div>
 </section>
+           <div class="section-divider">📸 NASZ ALBUM</div>
+<section class="photo-album">
 
-            <div class="section-divider">📸 NASZ ALBUM</div>
-            <section class="photo-album">
-
-                <div class="theme-card glass-panel fade-in">
-    <div class="theme-header">🌍 Wrocław i Podróże</div>
-    
-    <div class="gallery-grid">
-        <img src="img/wroclaw1.JPG" alt="My na górze">
-        <img src="img/wroclaw2.JPG" alt="Krasnalek">
-        <img src="img/wroclaw3.JPG" alt="Zoo">
-        <img src="img/wroclaw4.JPG" alt="Takie tam w tramwaju">
+    <div class="theme-card glass-panel fade-in">
+        <details> <summary class="theme-header">🌍 Wrocław tour <span style="font-size: 0.6em">▼</span></summary>
+            
+            <div class="gallery-grid">
+                <div class="grid-item">
+                    <img src="img/wroclaw1.JPG" alt="My na górze">
+                    <p>My na górze</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw2.JPG" alt="Krasnalek">
+                    <p>Krasnalek</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw3.JPG" alt="Zoo">
+                    <p>Żółwiki</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw4.JPG" alt="Takie tam w tramwaju">
+                    <p>Takie tam w tramwaju</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw5.JPG" alt="Mój tron">
+                    <p>Mój tron</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw6.JPG" alt="Starbucks">
+                    <p>Starbucks bo nas stać</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw7.JPG" alt="Ryneczek">
+                    <p>Ryneczek</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/wroclaw8.JPG" alt="Ładne">
+                    <p>Ładne</p>
+                </div>
+            </div>
+            
+            <p class="caption">Czekam na więcej przygód</p>
+        </details>
     </div>
-    <p class="caption">Tyle wspomnień w jednym miejscu :D . ✅</p>
-</div>
 
-                <div class="theme-card glass-panel fade-in">
-    <div class="theme-header">Photo-dump</div>
-    
-    <div class="gallery-grid">
-        <img src="img/dump1.JPG" alt="Impreza trwa!">
-        <img src="img/dump2.JPG" alt="hihi">
-        <img src="img/dump3.JPG" alt="To ja">
-        <img src="img/dump4.JPG" alt="Ja nie piję">
+    <div class="theme-card glass-panel fade-in">
+        <details>
+            <summary class="theme-header">Photo dump <span style="font-size: 0.6em">▼</span></summary>
+            
+            <div class="gallery-grid">
+                <div class="grid-item">
+                    <img src="img/dump1.JPG" alt="Foto 1">
+                    <p>Impreza trwa!</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump2.JPG" alt="Foto 2">
+                    <p>Hihi</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump3.JPG" alt="Foto 3">
+                    <p>To ja</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump4.JPG" alt="Foto 4">
+                    <p>Ja nie piję</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump5.JPG" alt="Bez komentarza">
+                    <p>Bez komentarza</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump6.JPG" alt="Po kompieli">
+                    <p>Po kąpieli</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump7.JPG" alt="Fresh">
+                    <p>Fresh</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump8.JPG" alt="Ospaaaa">
+                    <p>Ospaaaa</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump9.JPG" alt="BICEK">
+                    <p>BICEK</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump10.JPG" alt="Playboy">
+                    <p>Playboy</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump11.JPG" alt="Wiedźmin3">
+                    <p>Wiedźmin 3: Dziki Zgon</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/dump12.JPG" alt="Moja reakcja">
+                    <p>Moja reakcja</p>
+                </div>
+            </div>
+            
+            <p class="caption">Essa byczq 69</p>
+        </details>
     </div>
-    <p class="caption">Wiem że mnie pewnie zabijesz, ale co tam . ✅</p>
-</div>
+
+    <div class="theme-card glass-panel fade-in">
+        <details> <summary class="theme-header">My ❤️ <span style="font-size: 0.6em">▼</span></summary>
+            
+            <div class="gallery-grid">
+                <div class="grid-item">
+                    <img src="img/my1.JPG" alt="Z czwartku">
+                    <p>Z czwartku hihi</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my2.JPG" alt="BATMAN!">
+                    <p>BATMAN!</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my3.JPG" alt="A tu buzi">
+                    <p>A tu buzi</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my4.JPG" alt="Selfi">
+                    <p>Selfi</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my5.JPG" alt="Ząbkii">
+                    <p>Ząbkii</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my6.JPG" alt="Sylwester">
+                    <p>Sylwester z dwójką</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my7.JPEG" alt="Przed pizzą">
+                    <p>Takie tam przed pizzą</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my8.JPG" alt="KEBABIK">
+                    <p>KEBABIK</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my9.JPG" alt="Na wakacjach">
+                    <p>Na wakacjach</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my10.JPG" alt="Przytulasek">
+                    <p>Przytulasek</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my11.JPG" alt="Antyterroryści">
+                    <p>Antyterroryści</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my12.JPEG" alt="Halloween">
+                    <p>Halloween</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my13.JPG" alt="TikToczek">
+                    <p>TikToczek</p>
+                </div>
+                <div class="grid-item">
+                    <img src="img/my14.JPG" alt="Moc z tobą">
+                    <p>Niech moc będzie z tobą!</p>
+                </div>
+            </div>
+            
+            <p class="caption">❤️ Kocham Cię aniołku ❤️</p>
+        </details>
+    </div>
+
+</section>
 
                 <div class="polaroid fade-in rotate-right">
                     <div class="polaroid-img-container">
@@ -267,6 +441,20 @@
     </code></pre>
 </section>
 
-    <script src="script.js"></script>
+        <script src="script.js"></script>
+        <script>
+        // Rejestracja service workera dla PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js')
+                    .then(function(reg) {
+                        console.log('Service Worker zarejestrowany:', reg.scope);
+                    })
+                    .catch(function(err) {
+                        console.log('Błąd SW:', err);
+                    });
+            });
+        }
+        </script>
 </body>
 </html>
