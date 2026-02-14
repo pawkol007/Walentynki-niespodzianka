@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -44,6 +44,19 @@
     </div>
     <button class="action-btn" onclick="showReason()">🎰 Losuj Powód</button>
    </header>
+
+   <section class="glass-panel text-center fade-in" style="margin-top: 20px;">
+    <h3>🎁 Daily Login Gift</h3>
+    <p class="subtitle">Odbierz swój dzisiejszy bonus!</p>
+    
+    <div id="gift-container" class="quote-box" style="cursor: pointer; transition: transform 0.3s;" onclick="claimGift()">
+        <div id="gift-icon" style="font-size: 3rem;">📦</div>
+        <p id="gift-text" style="display: none; font-weight: bold; color: #590d22;"></p>
+    </div>
+    
+    <p id="gift-status" style="font-size: 0.8rem; color: #666; margin-top: 10px;">Dostępna nowa paczka!</p>
+</section>
+
    <section class="glass-panel text-center fade-in">
     <h3>Jesteśmy razem już:</h3>
     <div id="timer" class="timer">
@@ -100,7 +113,7 @@
     <div class="theme-card glass-panel fade-in" style="flex: 1 1 300px; max-width: 400px;">
         <div class="theme-header">🎬 Kinomaniacy</div>
         <img src="img/kino.PNG" alt="Filmy" class="card-img" style="height: 250px; object-fit: cover;">
-        <p class="caption">Czy to Wiedźmin, Batman czy TikToki do 3 rano – kanapa to nasze królestwo. 🍿</p>
+        <p class="caption">Kocham oglądać z tobą filmy i seriale!! 🍿</p>
     </div>
 
     <div class="theme-card glass-panel fade-in" style="flex: 1 1 300px; max-width: 400px;">
@@ -190,6 +203,36 @@
             <div class="coupon-icon">🎟️</div>
             <div class="coupon-text">Dzika Karta<br>(Twoje życzenie)</div>
         </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">📞</div>
+            <div class="coupon-text">Telefon lub video<br>rozmowa na życzenie</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🎲</div>
+            <div class="coupon-text">Spontaniczne wyjście<br>gdy masz czas</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🎤</div>
+            <div class="coupon-text">Wiadomość głosowa<br>z miłym słowem</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🚶‍♂️</div>
+            <div class="coupon-text">Kupon na spacer<br>kiedy chcesz</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">🗑️</div>
+            <div class="coupon-text">Usuwam wybrane<br>zdjęcie z galerii</div>
+        </div>
+
+        <div class="coupon" onclick="useCoupon(this)">
+            <div class="coupon-icon">👍</div>
+            <div class="coupon-text">Dzień na TAK<br>(na Twoje pomysły)</div>
+        </div>
     </div>
 </section>
            <div class="section-divider">📸 NASZ ALBUM</div>
@@ -228,7 +271,7 @@
                     <p>Ryneczek</p>
                 </div>
                 <div class="grid-item">
-                    <img src="img/wroclaw8.JPG" alt="Ładne">
+                    <img src="img/wroclaw8.jpg" alt="Ładne">
                     <p>Ładne</p>
                 </div>
             </div>
@@ -279,15 +322,15 @@
                     <p>BICEK</p>
                 </div>
                 <div class="grid-item">
-                    <img src="img/dump10.JPG" alt="Playboy">
+                    <img src="img/dump10.jpg" alt="Playboy">
                     <p>Playboy</p>
                 </div>
                 <div class="grid-item">
-                    <img src="img/dump11.JPG" alt="Wiedźmin3">
+                    <img src="img/dump11.jpg" alt="Wiedźmin3">
                     <p>Wiedźmin 3: Dziki Zgon</p>
                 </div>
                 <div class="grid-item">
-                    <img src="img/dump12.JPG" alt="Moja reakcja">
+                    <img src="img/dump12.jpg" alt="Moja reakcja">
                     <p>Moja reakcja</p>
                 </div>
             </div>
@@ -444,7 +487,7 @@
         <script src="script.js"></script>
         <script>
         // Rejestracja service workera dla PWA
-        if ('serviceWorker' in navigator) {
+        if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
             window.addEventListener('load', function() {
                 navigator.serviceWorker.register('service-worker.js')
                     .then(function(reg) {
@@ -454,7 +497,10 @@
                         console.log('Błąd SW:', err);
                     });
             });
+        } else if (window.location.protocol === 'file:') {
+            console.log('Service Worker pominiety: uruchom strone przez lokalny serwer http.');
         }
         </script>
 </body>
 </html>
+

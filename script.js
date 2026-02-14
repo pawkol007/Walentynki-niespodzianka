@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+﻿document.addEventListener('DOMContentLoaded', () => {
     console.log("Strona załadowana! 🚀");
 
     // ==========================================
@@ -282,32 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- KONFETTI I TŁO ---
-    function createMiniConfetti(el) {
-        const colors = ['#ff4d6d', '#ff8fa3', '#fff', '#590d22', '#ecccd3'];
-        const shapes = ['circle', 'square', 'heart'];
-        for(let i=0; i<40; i++) {
-            const bit = document.createElement('div');
-            bit.classList.add('confetti-bit');
-            // Losowy kształt
-            const shape = shapes[Math.floor(Math.random()*shapes.length)];
-            if(shape === 'square') {
-                bit.style.borderRadius = '0';
-            } else if(shape === 'heart') {
-                bit.innerHTML = '❤';
-                bit.style.fontSize = '16px';
-                bit.style.background = 'none';
-            }
-            bit.style.backgroundColor = shape === 'heart' ? 'transparent' : colors[Math.floor(Math.random()*colors.length)];
-            bit.style.left = el.offsetLeft + el.offsetWidth/2 + 'px';
-            bit.style.top = el.offsetTop + 'px';
-            const angle = Math.random() * Math.PI * 2;
-            const velocity = 5 + Math.random() * 12;
-            bit.style.setProperty('--tx', `${Math.cos(angle) * velocity * 14}px`);
-            bit.style.setProperty('--ty', `${Math.sin(angle) * velocity * 14 - 70}px`);
-            document.body.appendChild(bit);
-            setTimeout(() => bit.remove(), 1800);
-        }
-    }
+    // Funkcja przeniesiona poniżej, aby była globalna
 
     function createHeart() {
         const container = document.getElementById('hearts-container');
@@ -333,6 +308,25 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 });
 
+// --- KONFETTI: Jasne czerwone serca ---
+function createMiniConfetti(el) {
+    for(let i=0; i<40; i++) {
+        const bit = document.createElement('div');
+        bit.classList.add('confetti-bit');
+        bit.innerHTML = '❤️';
+        bit.style.fontSize = '22px';
+        bit.style.background = 'none';
+        bit.style.left = el.offsetLeft + el.offsetWidth/2 + 'px';
+        bit.style.top = el.offsetTop + 'px';
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = 5 + Math.random() * 12;
+        bit.style.setProperty('--tx', `${Math.cos(angle) * velocity * 14}px`);
+        bit.style.setProperty('--ty', `${Math.sin(angle) * velocity * 14 - 70}px`);
+        document.body.appendChild(bit);
+        setTimeout(() => bit.remove(), 1800);
+    }
+}
+
 // ==========================================
 // 4. FUNKCJE GLOBALNE (Dostępne dla HTML)
 // ==========================================
@@ -349,6 +343,8 @@ function showReason() {
         const idx = getUniqueRandomIndex('seenReasons', window.reasons.length);
         reasonElement.innerText = window.reasons[idx];
         reasonElement.style.opacity = 1;
+        // Dodaj efekt serduszkowego konfetti
+        createMiniConfetti(reasonElement);
     }, 300);
 }
 
@@ -379,3 +375,431 @@ function checkPassword() {
         errorMsg.innerText = "Złe hasło! Spróbuj jeszcze raz. 🔒";
     }
 }
+
+
+/* ==========================================
+   9. ENHANCEMENTS: DAILY, GIFTS, ADMIN JSON, DISCORD
+========================================== */
+(function () {
+    const STORAGE = {
+        dailyQuote: 'dailyQuoteV1',
+        usedCoupons: 'usedCouponsV1',
+        dailyLoginPing: 'dailyLoginPingV1',
+        dailyGiftDate: 'dailyGiftDateV1'
+    };
+
+    const dailyGifts = [
+    "🎮 Perk: Dzisiaj gramy w co Ty chcesz i jak długo chcesz (DbD, Marvel, cokolwiek)!",
+    "🎞️ Movie Night: Ty wybierasz film na nasz wspólny seans!",
+    "💌 Snail Mail: Wyślę Ci tradycyjny list lub małą niespodziankę pocztą!",
+    "📸 Selfie Request: Wyślę Ci moje zdjęcie zrobione specjalnie dla Ciebie w tej chwili!",
+    "🎤 Voice Message: Wyślę Ci nagranie, na którym mówię Ci coś miłego na dobranoc!",
+    "⏳ Skip Time: Ten kupon skraca czas do naszego spotkania o dużo xD",
+    "💆‍♂️ Rezerwacja: 1h masażu plecków do wykorzystania natychmiast po moim przyjeździe!",
+    "🧠 Psychologiczny Deep Talk: 30 minut rozmowy tylko o Twoich przemyśleniach – słucham bez przerywania!",
+    "🎮 Killer’s Mercy: W DbD chronię Cię za wszelką cenę – bodyblock, flashlight save, full simp mode!",
+    "🖤 Analizator mode: Wybierasz temat do analizy psychologicznej i rozkminiamy go razem!",
+    "🎲 RNG Blessing: Dzisiaj wszystkie decyzje podejmuję monetą xD",
+    "💞 Love Buff: Cały dzień komplementów co godzinę – bez limitu cringe.",
+    "📱 Priority Queue: Odpowiadam Ci w max 2 minuty przez cały dzień.",
+    "🛡️ Emotional Shield: Masz immunitet na moje marudzenie przez 24h.",
+    "🔥 Training Arc: Robimy razem mini challenge (np. 50 przysiadów, nauka czegoś nowego, itp.).",
+    "🎥 Reaction Cam: Nagrywam reakcję na coś, co mi wyślesz (memik, filmik, Twoje rysunki).",
+    "🌙 Goodnight Ultimate: 5-minutowa personalizowana wiadomość na dobranoc tylko dla Ciebie.",
+    "🏆 Queen’s Rule: Przez 24h mówisz mi, co mam robić (w granicach rozsądku 😳).",
+    "🍿 Serial Marathon Token: 2 odcinki pod rząd.",
+    "💌 Secret Drop: Dostajesz niespodziankę!"
+    ];
+
+    const DEFAULT_CONFIG = {
+        extraQuotes: [],
+        extraReasons: [],
+        albumSections: [],
+        specialDays: [
+            { date: '02-14', title: 'Walentynki', message: 'Specjalny tryb milosci wlaczony.' },
+            { date: '10-17', title: 'Nasza Rocznica', message: 'Dzisiaj swietujemy nasz dzien.' }
+        ],
+        discord: {
+            enabled: false,
+            webhookUrl: '',
+            username: 'DailyGift Bot'
+        }
+    };
+
+    window.__appConfig = { ...DEFAULT_CONFIG };
+    window.__appConfigReady = Promise.resolve(window.__appConfig);
+
+    function todayKey(date = new Date()) {
+        const y = date.getFullYear();
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    function monthDayKey(date = new Date()) {
+        const m = String(date.getMonth() + 1).padStart(2, '0');
+        const d = String(date.getDate()).padStart(2, '0');
+        return `${m}-${d}`;
+    }
+
+    function readJson(key, fallbackValue) {
+        try {
+            const raw = localStorage.getItem(key);
+            return raw ? JSON.parse(raw) : fallbackValue;
+        } catch {
+            return fallbackValue;
+        }
+    }
+
+    function writeJson(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function mergeConfig(input) {
+        return {
+            ...DEFAULT_CONFIG,
+            ...input,
+            extraQuotes: Array.isArray(input?.extraQuotes) ? input.extraQuotes : [],
+            extraReasons: Array.isArray(input?.extraReasons) ? input.extraReasons : [],
+            albumSections: Array.isArray(input?.albumSections) ? input.albumSections : [],
+            specialDays: Array.isArray(input?.specialDays) ? input.specialDays : DEFAULT_CONFIG.specialDays,
+            discord: {
+                ...DEFAULT_CONFIG.discord,
+                ...(input?.discord || {})
+            }
+        };
+    }
+
+    async function loadConfig() {
+        try {
+            const res = await fetch('./admin-panel.json', { cache: 'no-store' });
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const json = await res.json();
+            window.__appConfig = mergeConfig(json);
+        } catch {
+            window.__appConfig = mergeConfig({});
+        }
+
+        if (Array.isArray(window.quotes) && window.__appConfig.extraQuotes.length) {
+            window.quotes.push(...window.__appConfig.extraQuotes);
+        }
+        if (Array.isArray(window.reasons) && window.__appConfig.extraReasons.length) {
+            window.reasons.push(...window.__appConfig.extraReasons);
+        }
+
+        renderAlbumSections(window.__appConfig.albumSections);
+        return window.__appConfig;
+    }
+
+    function renderAlbumSections(sections) {
+        if (!sections?.length) return;
+
+        const albumRoot = document.querySelector('section.photo-album');
+        if (!albumRoot) return;
+
+        sections.forEach((section, idx) => {
+            const items = Array.isArray(section?.items) ? section.items : [];
+            if (!items.length) return;
+
+            const card = document.createElement('div');
+            card.className = 'theme-card glass-panel fade-in';
+
+            const details = document.createElement('details');
+            const summary = document.createElement('summary');
+            summary.className = 'theme-header';
+            summary.textContent = section.title || `Nowa sekcja ${idx + 1}`;
+            details.appendChild(summary);
+
+            const grid = document.createElement('div');
+            grid.className = 'gallery-grid';
+
+            items.forEach((item) => {
+                if (!item?.src) return;
+                const tile = document.createElement('div');
+                tile.className = 'grid-item';
+
+                const img = document.createElement('img');
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.src = item.src;
+                img.alt = item.alt || item.caption || 'Wspomnienie';
+
+                const cap = document.createElement('p');
+                cap.textContent = item.caption || '';
+
+                tile.appendChild(img);
+                tile.appendChild(cap);
+                grid.appendChild(tile);
+            });
+
+            details.appendChild(grid);
+
+            if (section.footer) {
+                const footer = document.createElement('p');
+                footer.className = 'caption';
+                footer.textContent = section.footer;
+                details.appendChild(footer);
+            }
+
+            card.appendChild(details);
+            albumRoot.appendChild(card);
+        });
+    }
+
+    async function notifyDiscord(type, payload = {}) {
+        const cfg = window.__appConfig?.discord;
+        if (!cfg?.enabled || !cfg?.webhookUrl) return;
+
+        const labels = {
+            daily_login: 'Daily login',
+            daily_gift: 'Daily gift'
+        };
+
+        const lines = [
+            `Event: ${labels[type] || type}`,
+            `Date: ${todayKey()}`,
+            payload.gift ? `Gift: ${payload.gift}` : null
+        ].filter(Boolean);
+
+        try {
+            await fetch(cfg.webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: cfg.username || 'DailyGift Bot',
+                    content: lines.join('\n')
+                })
+            });
+        } catch (err) {
+            console.warn('Discord webhook error', err);
+        }
+    }
+
+    function pingDailyLoginOnce() {
+        const key = todayKey();
+        const lastPing = localStorage.getItem(STORAGE.dailyLoginPing);
+        if (lastPing === key) return;
+        localStorage.setItem(STORAGE.dailyLoginPing, key);
+        notifyDiscord('daily_login', { date: key });
+    }
+
+    function ensureDailyLockButton(drawBtn) {
+        let lockBtn = document.getElementById('dailyLockBtn');
+        if (!lockBtn) {
+            lockBtn = document.createElement('button');
+            lockBtn.id = 'dailyLockBtn';
+            lockBtn.className = 'secondary-btn';
+            lockBtn.style.marginLeft = '12px';
+            lockBtn.style.display = 'none';
+            lockBtn.innerText = 'Losuj ponownie jutro';
+            lockBtn.addEventListener('click', () => {
+                alert('Nowa wiadomosc bedzie dostepna jutro.');
+            });
+            drawBtn.insertAdjacentElement('afterend', lockBtn);
+        }
+        return lockBtn;
+    }
+
+    function getDailyState() {
+        return readJson(STORAGE.dailyQuote, null);
+    }
+
+    function setDailyState(state) {
+        writeJson(STORAGE.dailyQuote, state);
+    }
+
+    function refreshDailyUI() {
+        const drawBtn = document.getElementById('drawBtn');
+        const lockBtn = document.getElementById('dailyLockBtn');
+        if (!drawBtn) return;
+
+        drawBtn.disabled = false;
+        drawBtn.innerText = 'Losuj wiadomosc';
+        if (lockBtn) lockBtn.style.display = 'none';
+    }
+
+    function drawDailyQuote() {
+        const drawBtn = document.getElementById('drawBtn');
+        const quoteText = document.getElementById('daily-quote');
+        if (!drawBtn || !quoteText) return;
+
+        quoteText.style.opacity = 0;
+        setTimeout(() => {
+            const idx = getUniqueRandomIndex('seenQuotes', window.quotes.length);
+            quoteText.innerText = window.quotes[idx];
+            quoteText.style.opacity = 1;
+            createMiniConfetti(drawBtn);
+            refreshDailyUI();
+        }, 300);
+    }
+
+    function attachDailyDrawHandler() {
+        const oldBtn = document.getElementById('drawBtn');
+        if (!oldBtn) return;
+
+        const newBtn = oldBtn.cloneNode(true);
+        oldBtn.replaceWith(newBtn);
+
+        newBtn.addEventListener('click', drawDailyQuote);
+        refreshDailyUI();
+    }
+
+    function initCouponsPersistence() {
+        const usedCoupons = readJson(STORAGE.usedCoupons, []);
+        const usedSet = new Set(usedCoupons);
+
+        document.querySelectorAll('.coupon').forEach((coupon, index) => {
+            if (!coupon.dataset.couponId) {
+                coupon.dataset.couponId = `coupon-${index + 1}`;
+            }
+            const icon = coupon.querySelector('.coupon-icon');
+            if (icon && !icon.dataset.originalIcon) {
+                icon.dataset.originalIcon = icon.innerText;
+            }
+            if (usedSet.has(coupon.dataset.couponId)) {
+                coupon.classList.add('used');
+                if (icon) icon.innerText = 'OK';
+            }
+        });
+    }
+
+    function activateSpecialDayMode() {
+        const today = todayKey();
+        const md = monthDayKey();
+        const event = (window.__appConfig.specialDays || []).find((item) => item.date === today || item.date === md);
+        if (!event) return;
+
+        const container = document.querySelector('.container');
+        if (!container) return;
+
+        const banner = document.createElement('section');
+        banner.className = 'glass-panel text-center';
+        banner.style.border = '2px solid #ff4d6d';
+        banner.style.animation = 'bounce 0.8s ease';
+        banner.innerHTML = `<h2>${event.title || 'Specjalny dzien'}</h2><p>${event.message || 'Tryb specjalny wlaczony.'}</p>`;
+        container.prepend(banner);
+
+        createMiniConfetti(banner);
+    }
+
+    window.claimGift = function () {
+        const giftText = document.getElementById('gift-text');
+        const giftIcon = document.getElementById('gift-icon');
+        const giftStatus = document.getElementById('gift-status');
+        if (!giftText || !giftIcon || !giftStatus) return;
+
+        const today = todayKey();
+        const lastClaimed = localStorage.getItem(STORAGE.dailyGiftDate);
+
+        if (lastClaimed === today) {
+            giftIcon.innerText = '📭';
+            giftText.style.display = 'block';
+            giftText.innerText = 'Dzisiaj prezent juz byl odebrany. Wroc jutro.';
+            giftStatus.innerText = 'Nastepny drop: jutro';
+            return;
+        }
+
+        const randomIdx = Math.floor(Math.random() * dailyGifts.length);
+        const reward = dailyGifts[randomIdx];
+
+        giftIcon.style.transform = 'scale(1.2) rotate(10deg)';
+        setTimeout(() => {
+            giftIcon.innerText = '🎁';
+            giftText.style.display = 'block';
+            giftText.innerText = reward;
+            giftStatus.innerText = 'Prezent odebrany dzisiaj';
+            giftIcon.style.transform = 'scale(1)';
+            localStorage.setItem(STORAGE.dailyGiftDate, today);
+            createMiniConfetti(giftIcon);
+            notifyDiscord('daily_gift', { gift: reward });
+        }, 400);
+    };
+
+    window.useCoupon = function (element) {
+        if (!element || element.classList.contains('used')) return;
+
+        if (confirm('Czy na pewno chcesz uzyc tego kuponu?')) {
+            element.classList.add('used');
+            const icon = element.querySelector('.coupon-icon');
+            if (icon) icon.innerText = 'OK';
+
+            const couponId = element.dataset.couponId;
+            const usedCoupons = readJson(STORAGE.usedCoupons, []);
+            if (couponId && !usedCoupons.includes(couponId)) {
+                usedCoupons.push(couponId);
+                writeJson(STORAGE.usedCoupons, usedCoupons);
+            }
+
+            alert('Kupon aktywowany. Zrob screena i wyslij.');
+        }
+    };
+
+    window.__dailyDebug = {
+        resetDailyQuoteLimit() {
+            localStorage.removeItem(STORAGE.dailyQuote);
+            refreshDailyUI();
+            return 'OK: daily quote reset';
+        },
+        resetCoupons() {
+            localStorage.removeItem(STORAGE.usedCoupons);
+            document.querySelectorAll('.coupon.used').forEach((coupon) => {
+                coupon.classList.remove('used');
+                const icon = coupon.querySelector('.coupon-icon');
+                if (icon) {
+                    const original = icon.dataset.originalIcon;
+                    if (original) icon.innerText = original;
+                }
+            });
+            return 'OK: coupons reset';
+        },
+        resetDailyLoginPing() {
+            localStorage.removeItem(STORAGE.dailyLoginPing);
+            return 'OK: daily login ping reset';
+        },
+        resetDailyGift() {
+            localStorage.removeItem(STORAGE.dailyGiftDate);
+            const giftText = document.getElementById('gift-text');
+            const giftIcon = document.getElementById('gift-icon');
+            const giftStatus = document.getElementById('gift-status');
+            if (giftText) {
+                giftText.style.display = 'none';
+                giftText.innerText = '';
+            }
+            if (giftIcon) giftIcon.innerText = '📦';
+            if (giftStatus) giftStatus.innerText = 'Dostepna nowa paczka!';
+            return 'OK: daily gift reset';
+        },
+        sendTestGift(message = 'TEST gift from debug mode') {
+            notifyDiscord('daily_gift', { gift: message });
+            return 'OK: test gift sent';
+        }
+    };
+
+    window.checkPassword = function () {
+        const passwordInput = document.getElementById('passwordInput');
+        const errorMsg = document.getElementById('error-msg');
+        if (!passwordInput || !errorMsg) return;
+
+        const secretHash = 'MTcuMTAuMjAyNA==';
+        const password = passwordInput.value;
+        const b64 = (str) => window.btoa(unescape(encodeURIComponent(str)));
+
+        if (b64(password.toLowerCase()) === secretHash) {
+            const overlay = document.getElementById('login-overlay');
+            if (overlay) overlay.style.display = 'none';
+
+            Promise.resolve(window.__appConfigReady).finally(() => {
+                pingDailyLoginOnce();
+            });
+        } else {
+            errorMsg.style.display = 'block';
+            errorMsg.innerText = 'Zle haslo! Sprobuj jeszcze raz.';
+        }
+    };
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await (window.__appConfigReady = loadConfig());
+        initCouponsPersistence();
+        activateSpecialDayMode();
+    });
+})();

@@ -1,0 +1,38 @@
+﻿{
+  "extraQuotes": [
+    "To dodatkowy cytat z panelu JSON."
+  ],
+  "extraReasons": [
+    "To dodatkowy powod z panelu JSON."
+  ],
+  "albumSections": [
+    {
+      "title": "Nowe wspomnienia",
+      "footer": "Sekcja dodana z admin-panel.json",
+      "items": [
+        {
+          "src": "img/foto2.JPG",
+          "alt": "Przykladowe wspomnienie",
+          "caption": "Ten wpis mozesz podmienic w JSON"
+        }
+      ]
+    }
+  ],
+  "specialDays": [
+    {
+      "date": "02-14",
+      "title": "Walentynki",
+      "message": "Dzisiaj jest specjalny dzien dla nas."
+    },
+    {
+      "date": "10-17",
+      "title": "Nasza Rocznica",
+      "message": "Rocznicowy tryb specjalny aktywowany."
+    }
+  ],
+  "discord": {
+    "enabled": true,
+    "webhookUrl": "https://discord.com/api/webhooks/1472019268244734179/UyVCbLBxkK3weMeB6oJLpHJFUBkCkxDpeZzcRTG7BuUAg_4qf1xFaB-u_r4GuWmyaTk6",
+    "username": "DailyLogin Bot"
+  }
+}

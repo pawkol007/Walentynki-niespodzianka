@@ -1,33 +1,100 @@
-// Service Worker dla PWA: cacheuje pliki, by strona działała offline
-const CACHE_NAME = 'walentynki-v1';
-const URLS_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/manifest.json',
-  '/img/bubu.gif',
-  // Dodaj inne pliki z folderu img jeśli chcesz
+﻿const STATIC_CACHE = 'walentynki-static-v3';
+const IMAGE_CACHE = 'walentynki-images-v3';
+
+const CORE_ASSETS = [
+  './',
+  './index.html',
+  './style.css',
+  './script.js',
+  './admin-panel.json',
+  './manifest.json',
+  './service-worker.js',
+  './img/bubu.gif'
 ];
 
-self.addEventListener('install', event => {
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(URLS_TO_CACHE))
+    caches.open(STATIC_CACHE).then((cache) => cache.addAll(CORE_ASSETS))
   );
+  self.skipWaiting();
 });
 
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys
+          .filter((key) => key !== STATIC_CACHE && key !== IMAGE_CACHE)
+          .map((key) => caches.delete(key))
+      )
+    )
   );
+  self.clients.claim();
 });
 
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-    ))
-  );
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
+  if (url.origin !== self.location.origin) return;
+
+  if (request.destination === 'image') {
+    event.respondWith(cacheFirst(request, IMAGE_CACHE));
+    return;
+  }
+
+  if (request.mode === 'navigate') {
+    event.respondWith(networkFirstPage(request));
+    return;
+  }
+
+  event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
 });
+
+async function cacheFirst(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+  if (cached) return cached;
+
+  const response = await fetch(request);
+  if (response && response.ok) {
+    cache.put(request, response.clone());
+  }
+  return response;
+}
+
+async function networkFirstPage(request) {
+  const cache = await caches.open(STATIC_CACHE);
+
+  try {
+    const fresh = await fetch(request);
+    if (fresh && fresh.ok) {
+      cache.put('./index.html', fresh.clone());
+    }
+    return fresh;
+  } catch {
+    const cachedPage = await cache.match(request);
+    if (cachedPage) return cachedPage;
+    return cache.match('./index.html');
+  }
+}
+
+async function staleWhileRevalidate(request, cacheName) {
+  const cache = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const networkPromise = fetch(request)
+    .then((response) => {
+      if (response && response.ok) {
+        cache.put(request, response.clone());
+      }
+      return response;
+    })
+    .catch(() => null);
+
+  return cached || networkPromise || Response.error();
+}
+
+

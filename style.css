@@ -1,61 +1,129 @@
-:root {
+﻿:root {
     --primary: #ff4d6d;
     --secondary: #ff8fa3;
-    --bg-grad: linear-gradient(135deg, #fff0f3 0%, #fff5f8 100%);
-    --glass: rgba(255, 255, 255, 0.9); /* Bardziej białe tło */
+    --accent: #ff758f;
+    --bg-grad: linear-gradient(145deg, #fff0f3 0%, #ffeef5 45%, #fff7fa 100%);
+    --glass: rgba(255, 255, 255, 0.74);
+    --surface: rgba(255, 255, 255, 0.9);
+    --surface-strong: #ffffff;
     --text: #590d22;
+    --muted: #8d5a68;
+    --border-soft: rgba(255, 77, 109, 0.2);
+    --shadow-soft: 0 10px 28px rgba(255, 77, 109, 0.12);
+    --shadow-strong: 0 18px 40px rgba(255, 77, 109, 0.2);
+    --focus-ring: 0 0 0 3px rgba(255, 77, 109, 0.28);
 }
 
 body {
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
     font-family: 'Nunito', sans-serif;
-    background: var(--bg-grad);
+    background:
+        radial-gradient(circle at 12% 10%, rgba(255, 143, 163, 0.26) 0%, transparent 34%),
+        radial-gradient(circle at 85% 5%, rgba(255, 77, 109, 0.16) 0%, transparent 30%),
+        var(--bg-grad);
     color: var(--text);
     min-height: 100vh;
     overflow-x: hidden;
     padding-bottom: 50px;
+    line-height: 1.55;
 }
 
-/* TŁO I KONTENER */
-#hearts-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
-.bg-heart { position: absolute; top: -50px; opacity: 0.5; animation: fall linear forwards; }
-@keyframes fall { to { transform: translateY(110vh); } }
-.container { max-width: 600px; margin: 0 auto; padding: 20px; }
+#hearts-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
 
-/* NAGŁÓWKI I TEKSTY */
+.bg-heart {
+    position: absolute;
+    top: -50px;
+    opacity: 0.5;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to { transform: translateY(110vh); }
+}
+
+.container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 24px 20px;
+}
+
 .text-center { text-align: center; }
-h1, h2 { font-family: 'Dancing Script', cursive; color: var(--primary); }
-h1 { font-size: 2.5rem; margin: 10px 0; }
-.subtitle { color: #888; margin-bottom: 15px; }
-.section-divider {
-    text-align: center; font-weight: bold; letter-spacing: 2px;
-    color: #cca8b1; margin: 40px 0 20px; font-size: 0.9rem;
-    border-bottom: 2px dashed #ecccd3; padding-bottom: 10px;
+
+h1,
+h2 {
+    font-family: 'Dancing Script', cursive;
+    color: var(--primary);
 }
 
-/* KARTY SZKLANE */
+h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin: 8px 0 14px;
+    line-height: 1.1;
+}
+
+h2 {
+    font-size: clamp(1.65rem, 3vw, 2.2rem);
+}
+
+h3 {
+    font-size: clamp(1.2rem, 2vw, 1.45rem);
+    margin: 0 0 10px;
+}
+
+.subtitle {
+    color: var(--muted);
+    margin-bottom: 15px;
+    font-size: 1.02rem;
+}
+
+.section-divider {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #b68593;
+    margin: 40px 0 20px;
+    font-size: 0.9rem;
+    border-bottom: 2px dashed #ecccd3;
+    padding-bottom: 10px;
+}
+
 .glass-panel {
     background: var(--glass);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border: 2px solid white;
-    border-radius: 20px;
+    border: 1.5px solid rgba(255, 255, 255, 0.9);
+    border-radius: 22px;
     padding: 25px;
     margin-bottom: 25px;
-    box-shadow: 0 10px 30px rgba(255, 77, 109, 0.15);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* LOSOWANIE CYTATU I POWODÓW */
+.glass-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-strong);
+}
+
 .quote-box {
-    background: white;
+    background: var(--surface-strong);
     padding: 20px;
-    border-radius: 15px;
+    border-radius: 16px;
     margin: 20px 0;
     min-height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #ff8fa3;
+    border: 1.5px dashed var(--secondary);
+    box-shadow: inset 0 0 0 1px rgba(255, 143, 163, 0.2);
 }
 
 #daily-quote,
@@ -63,51 +131,93 @@ h1 { font-size: 2.5rem; margin: 10px 0; }
     font-size: 1.1rem;
     font-weight: bold;
     font-style: italic;
-    color: #590d22;
+    color: var(--text);
     transition: opacity 0.3s;
     margin: 0;
 }
-/* PRZYCISKI */
+
 .action-btn {
-    background: var(--primary); color: white; border: none;
-    padding: 15px 30px; border-radius: 50px; font-size: 1rem;
-    font-weight: bold; cursor: pointer;
-    box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4); transition: transform 0.2s;
-}
-.action-btn:active { transform: scale(0.95); }
-.secondary-btn {
-    background: transparent; color: var(--primary);
-    border: 2px solid var(--primary); padding: 10px 20px;
-    border-radius: 50px; font-weight: bold; cursor: pointer; margin-bottom: 30px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 18px rgba(255, 77, 109, 0.35);
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
 }
 
-/* NOWOŚĆ: POLAROIDY */
+.action-btn:hover {
+    transform: translateY(-1px);
+    filter: saturate(1.05);
+    box-shadow: 0 12px 22px rgba(255, 77, 109, 0.35);
+}
+
+.action-btn:active { transform: scale(0.95); }
+
+.secondary-btn {
+    background: rgba(255, 255, 255, 0.78);
+    color: var(--primary);
+    border: 1.5px solid var(--border-soft);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 30px;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+
+.secondary-btn:hover {
+    transform: translateY(-1px);
+    background: #fff;
+    box-shadow: 0 8px 16px rgba(255, 143, 163, 0.24);
+}
+
+.action-btn:focus-visible,
+.secondary-btn:focus-visible,
+.login-box input:focus-visible,
+.login-box button:focus-visible,
+summary:focus-visible {
+    outline: none;
+    box-shadow: var(--focus-ring);
+}
+
 .polaroid {
-    background: white;
-    padding: 15px 15px 40px 15px; /* Duży padding na dole na tekst */
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    background: var(--surface-strong);
+    padding: 15px 15px 40px 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.14);
     margin-bottom: 40px;
-    transform: rotate(-2deg); /* Lekki obrót */
+    transform: rotate(-2deg);
     transition: transform 0.3s;
     position: relative;
 }
+
 .rotate-left { transform: rotate(-3deg); }
 .rotate-right { transform: rotate(3deg); }
 
-.polaroid:hover { transform: scale(1.02) rotate(0deg); z-index: 10; }
+.polaroid:hover {
+    transform: scale(1.02) rotate(0deg);
+    z-index: 10;
+}
 
 .polaroid-img-container {
     width: 100%;
-    aspect-ratio: 1 / 1; /* Kwadratowe zdjęcia */
+    aspect-ratio: 1 / 1;
     overflow: hidden;
     background: #f0f0f0;
     margin-bottom: 10px;
 }
+
 .polaroid-img-container img {
-    width: 100%; height: 100%; object-fit: cover;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
+
 .handwritten {
-    font-family: 'Shadows Into Light', cursive; /* Czcionka jak pismo ręczne */
+    font-family: 'Shadows Into Light', cursive;
     font-size: 1.4rem;
     color: #333;
     text-align: center;
@@ -117,184 +227,238 @@ h1 { font-size: 2.5rem; margin: 10px 0; }
     left: 0;
 }
 
-/* BUCKET LIST */
-.bucket-list { list-style: none; padding: 0; text-align: left; }
-.bucket-list li {
-    padding: 10px 0; border-bottom: 1px solid #eee; font-size: 1.1rem;
-}
-.bucket-list li.done {
-    color: #888; text-decoration: line-through; opacity: 0.7;
+.bucket-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
 }
 
-/* POZOSTAŁE */
-.theme-header { font-weight: bold; font-size: 1.2rem; margin-bottom: 10px; }
+.bucket-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 1.04rem;
+}
+
+.bucket-list li.done {
+    color: #888;
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.theme-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+    color: #6f2638;
+}
+
 .card-img { width: 100%; border-radius: 12px; }
 .card-img-tall { height: 250px; object-fit: cover; }
 .caption { margin-top: 10px; font-size: 0.9rem; line-height: 1.4; }
 .coupon-info { font-size: 0.9rem; color: #666; margin-bottom: 20px; }
+
 .theme-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
 }
+
 .theme-grid .theme-card {
     flex: 1 1 300px;
     max-width: 400px;
 }
-.signature { text-align: right; font-family: 'Dancing Script', cursive; font-size: 1.4rem; color: var(--primary); margin-top: 15px; }
-footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 40px; }
-.hidden-section { display: none; opacity: 0; transition: opacity 1s; }
-.hidden-section.visible { display: block; opacity: 1; }
 
-/* ANIMACJE */
-.fade-in { opacity: 0; transform: translateY(20px); transition: 0.8s; }
-.visible-el { opacity: 1; transform: translateY(0); }
+.signature {
+    text-align: right;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin-top: 15px;
+}
+
+footer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 40px;
+}
+
+.hidden-section {
+    display: none;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.hidden-section.visible {
+    display: block;
+    opacity: 1;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(14px);
+    transition: 0.6s;
+}
+
+.visible-el {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .bounce-in { animation: bounce 1s; }
-@keyframes bounce { 0% { transform: scale(0.8); opacity: 0; } 60% { transform: scale(1.05); } 100% { transform: scale(1); opacity: 1; } }
-.confetti-bit { position: absolute; width: 8px; height: 8px; border-radius: 50%; pointer-events: none; animation: pop 0.8s ease-out forwards; }
+
+@keyframes bounce {
+    0% { transform: scale(0.8); opacity: 0; }
+    60% { transform: scale(1.05); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.confetti-bit {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pop 0.8s ease-out forwards;
+}
+
 @keyframes pop {
-    0% { opacity: 1; transform: scale(1) translate(0,0); }
+    0% { opacity: 1; transform: scale(1) translate(0, 0); }
     60% { opacity: 1; transform: scale(1.2) translate(var(--tx), calc(var(--ty) * 0.7)); }
     100% { opacity: 0; transform: scale(0.8) translate(var(--tx), var(--ty)); }
 }
 
-/* --- MINI GALERIA (SIATKA 4x2 - KLASYCZNA) --- */
-
 .gallery-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Dwie równe kolumny */
-    gap: 10px; /* Małe odstępy */
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
     padding: 10px;
 }
 
-/* Pojedynczy kafelek */
 .gallery-grid > div {
-    position: relative; /* Ważne, żeby trzymać napis w środku */
-    height: 150px;      /* Stała wysokość (nie będzie podłużne) */
-    border-radius: 10px;
-    overflow: hidden;   /* Ucina wszystko co wystaje */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    position: relative;
+    height: 145px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 18px rgba(89, 13, 34, 0.14);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* Zdjęcie na cały kafelek */
+.gallery-grid > div:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 24px rgba(89, 13, 34, 0.16);
+}
+
 .gallery-grid img {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Wypełnia cały kwadrat, nie zniekształca */
+    object-fit: contain;
     display: block;
 }
 
-/* NAPIS (Zawsze widoczny pasek na dole) */
-.gallery-grid p, 
+.gallery-grid p,
 .gallery-grid .overlay {
     position: absolute !important;
     bottom: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    
-    background: rgba(0, 0, 0, 0.6) !important; /* Półprzezroczysty czarny pasek */
-    color: white !important; /* Biały tekst */
-    
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.2)) !important;
+    color: #fff !important;
     margin: 0 !important;
-    padding: 5px 0 !important;
+    padding: 6px 0 !important;
     text-align: center;
     font-size: 12px;
     font-weight: bold;
-    z-index: 100; /* Musi być na wierzchu */
+    z-index: 100;
 }
-/* --- STYL LICZNIKA (GLOW UP) --- */
+
 .timer {
     display: flex;
     justify-content: center;
-    gap: 20px; /* Większe odstępy, żeby było luźniej */
+    gap: 20px;
     margin: 30px 0;
 }
 
 .time-box {
-    background: rgba(255, 255, 255, 0.95); /* Prawie białe tło */
+    background: var(--surface);
     padding: 15px 25px;
-    border-radius: 20px; /* Mocno zaokrąglone rogi */
+    border-radius: 20px;
     min-width: 85px;
     text-align: center;
-    
-    /* Ozdoby */
-    border: 2px solid #ffe5ec; /* Bardzo jasna różowa ramka */
-    box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); /* Różowy cień pod spodem */
-    
-    /* Animacja pulsowania */
-    animation: pulse 2s infinite ease-in-out;
+    border: 1.5px solid #ffe5ec;
+    box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2);
+    animation: pulse 3s infinite ease-in-out;
 }
 
-/* Żeby środkowy boks pulsował w innym tempie (fajny efekt) */
-.time-box:nth-child(2) {
-    animation-delay: 1s;
-}
+.time-box:nth-child(2) { animation-delay: 1s; }
 
 .time-box span {
     display: block;
-    font-weight: 800; /* Bardzo gruby tekst */
-    font-size: 2.2rem; /* Duże cyfry */
-    color: var(--primary); /* Różowy kolor */
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: var(--primary);
     line-height: 1.1;
-    text-shadow: 2px 2px 0px rgba(0,0,0,0.05); /* Lekki cień liter */
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .time-box .label {
     font-size: 0.75rem;
-    text-transform: uppercase; /* Wielkie litery */
-    letter-spacing: 2px; /* Rozstrzelone litery */
+    text-transform: uppercase;
+    letter-spacing: 2px;
     color: #888;
     margin-top: 5px;
     font-weight: bold;
 }
 
-/* Definicja animacji pulsowania */
 @keyframes pulse {
     0% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); }
-    50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3); } /* Powiększenie */
+    50% { transform: scale(1.03); box-shadow: 0 15px 35px rgba(255, 77, 109, 0.3); }
     100% { transform: scale(1); box-shadow: 0 10px 25px rgba(255, 77, 109, 0.2); }
 }
 
-/* --- STATYSTYKI RPG (Z Levelami) --- */
 .stat-row { margin-bottom: 20px; }
 
-/* Kontener na nazwę i level */
 .stat-info {
     display: flex;
-    justify-content: space-between; /* To rozpycha napisy na lewo i prawo */
+    justify-content: space-between;
     align-items: center;
     margin-bottom: 5px;
 }
 
-.stat-name { 
-    font-weight: bold; 
-    font-size: 0.95rem; 
+.stat-name {
+    font-weight: bold;
+    font-size: 0.95rem;
 }
 
 .stat-lvl {
     font-weight: bold;
-    color: var(--primary); /* Kolor różowy */
-    font-family: 'Courier New', monospace; /* Czcionka "komputerowa" */
+    color: var(--primary);
+    font-family: 'Courier New', monospace;
     font-size: 0.85rem;
 }
 
 .progress-bar-bg {
-    width: 100%; height: 12px; background: #eee;
-    border-radius: 6px; overflow: hidden;
+    width: 100%;
+    height: 12px;
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
     border: 1px solid #ddd;
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar-fill {
-    height: 100%; background: linear-gradient(90deg, #ff8fa3, #ff4d6d);
+    height: 100%;
+    background: linear-gradient(90deg, #ff8fa3, #ff4d6d);
     border-radius: 6px;
     animation: loadBar 2s ease-out forwards;
 }
 
-@keyframes loadBar { from { width: 0; } }
+@keyframes loadBar {
+    from { width: 0; }
+}
 
-/* --- KUPONY --- */
 .coupon-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -302,146 +466,204 @@ footer { text-align: center; font-size: 0.8rem; color: #999; margin-top: 40px; }
 }
 
 .coupon {
-    background: white;
-    border: 2px dashed var(--primary);
+    background: var(--surface-strong);
+    border: 1.5px dashed var(--primary);
     border-radius: 12px;
     padding: 15px 5px;
     text-align: center;
-    transition: all 0.3s;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
     cursor: pointer;
     position: relative;
-    user-select: none; /* Żeby nie zaznaczać tekstu przy klikaniu */
+    user-select: none;
 }
 
-.coupon:active {
-    transform: scale(0.95);
+.coupon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 18px rgba(255, 143, 163, 0.22);
+    border-color: var(--accent);
 }
 
-/* Wygląd zużytego kuponu */
+.coupon:active { transform: scale(0.95); }
+
 .coupon.used {
     background: #e0e0e0;
     border-color: #999;
     color: #999;
     text-decoration: line-through;
-    pointer-events: none; /* Nie da się kliknąć drugi raz */
+    pointer-events: none;
     opacity: 0.7;
 }
 
 .coupon-icon { font-size: 2rem; margin-bottom: 5px; }
 .coupon-text { font-weight: bold; font-size: 0.85rem; line-height: 1.3; }
 
-/* --- KOD ŹRÓDŁOWY --- */
 .code-panel {
-    background: #1e1e1e; /* Ciemne tło jak w VS Code */
+    background: #1e1e1e;
     border-radius: 10px;
     padding: 20px;
     margin-bottom: 30px;
     border: 1px solid #333;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-    text-align: left; /* Kod musi być do lewej! */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    text-align: left;
 }
 
 pre { margin: 0; }
+
 code {
     font-family: 'Courier New', monospace;
     color: #d4d4d4;
     font-size: 0.9rem;
 }
 
-/* Kolorowanie składni */
-.keyword { color: #c586c0; font-weight: bold; } /* Różowy dla if/while */
-.function { color: #dcdcaa; } /* Żółty dla funkcji */
-.comment { color: #6a9955; font-style: italic; } /* Zielony komentarz */
+.keyword { color: #c586c0; font-weight: bold; }
+.function { color: #dcdcaa; }
+.comment { color: #6a9955; font-style: italic; }
 
-/* --- EKRAN LOGOWANIA (Tło na cały ekran) --- */
-/* --- EKRAN LOGOWANIA (PANCERNY) --- */
 #login-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    
-    /* 1. To jest najważniejsze - solidny kolor tła (taki jak tło misiów) */
-    background-color: #f3f0f5 !important; 
-    
-    /* 2. Obrazek na środku */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #f3f0f5 !important;
     background-image: url('img/bubu.gif');
-    
-    background-size: contain;   /* Dopasuj rozmiar */
-    background-position: center; /* Wyśrodkuj */
-    background-repeat: no-repeat; /* Nie powtarzaj */
-    
-    z-index: 10000; /* Musi być wyżej niż wszystko inne (nawet serduszka) */
-    display: flex; justify-content: center; align-items: center;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-/* --- OKIENKO LOGOWANIA (PRZEZROCZYSTE) --- */
 .login-box {
-    /* 👇 Zmieniamy tło na przezroczyste */
     background: transparent;
-    
-    /* 👇 Usuwamy cień i rozmycie pudełka */
     box-shadow: none;
     backdrop-filter: none;
-    
-    /* Reszta zostaje, żeby wyśrodkować elementy */
     padding: 20px;
     text-align: center;
     width: 90%;
     max-width: 350px;
 }
 
-/* 👇 DODATKOWO: Dodajmy cień do napisów, żeby były czytelne na tle */
-.login-box h2, .login-box p {
-    color: #333; /* Ciemny kolor tekstu */
-    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8); /* Biała poświata wokół liter */
+.login-box h2,
+.login-box p {
+    color: #333;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
 
-/* To zostaje bez zmian */
 .login-box input {
     padding: 12px;
-    border: 2px solid var(--primary); /* Różowa ramka */
+    border: 2px solid var(--primary);
     border-radius: 10px;
     margin: 15px 0;
     width: 80%;
-    background: rgba(255, 255, 255, 0.8); /* Lekko białe tło pola, żeby było widać co się pisze */
+    background: rgba(255, 255, 255, 0.8);
     text-align: center;
 }
-.login-box button {
-    padding: 10px 20px; background: var(--primary); color: white;
-    border: none; border-radius: 5px; cursor: pointer; font-weight: bold;
-}
 
-/* --- ROZWIJANE SEKCJE (DETAILS/SUMMARY) --- */
+.login-box button {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
 details {
     width: 100%;
     transition: all 0.3s ease;
 }
 
-/* Styl nagłówka, w który się klika */
 summary {
-    cursor: pointer; /* Kursor rączki */
-    list-style: none; /* Usuwa domyślny trójkąt */
-    outline: none; /* Usuwa niebieską ramkę po kliknięciu */
-    user-select: none; /* Nie zaznacza tekstu przy klikaniu */
-    padding-bottom: 10px; /* Odstęp od zdjęć */
+    cursor: pointer;
+    list-style: none;
+    user-select: none;
+    padding-bottom: 10px;
 }
 
-/* Usuwa trójkąt w Chrome/Safari */
-summary::-webkit-details-marker {
-    display: none;
-}
+summary::-webkit-details-marker { display: none; }
 
-/* Animacja strzałki po otwarciu */
 details[open] summary span {
     display: inline-block;
     transform: rotate(180deg);
     transition: transform 0.3s;
 }
 
-/* Gdy zamknięte - strzałka normalnie */
 details:not([open]) summary span {
     display: inline-block;
     transform: rotate(0deg);
     transition: transform 0.3s;
 }
 
+@media (max-width: 600px) {
+    .container {
+        max-width: 100vw;
+        padding: 8px 8px 14px;
+    }
+
+    .glass-panel {
+        padding: 11px;
+        border-radius: 12px;
+    }
+
+    .theme-grid,
+    .coupon-grid {
+        display: block;
+    }
+
+    .theme-card,
+    .coupon {
+        margin-bottom: 18px;
+        max-width: 100%;
+    }
+
+    .gallery-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .gallery-grid > div { height: 92px; }
+
+    .card-img,
+    .polaroid-img-container img {
+        border-radius: 8px;
+    }
+
+    .coupon {
+        padding: 10px 2px;
+        font-size: 0.9rem;
+    }
+
+    .coupon-icon { font-size: 1.5rem; }
+
+    h1 { font-size: 1.45rem; }
+
+    .section-divider {
+        font-size: 0.8rem;
+        margin: 20px 0 10px;
+    }
+
+    .quote-box {
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    .time-box {
+        padding: 8px 10px;
+        border-radius: 10px;
+        min-width: 60px;
+    }
+
+    .polaroid {
+        padding: 8px 8px 25px 8px;
+        border-radius: 8px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
