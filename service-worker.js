@@ -1,5 +1,5 @@
-﻿const STATIC_CACHE = 'walentynki-static-v3';
-const IMAGE_CACHE = 'walentynki-images-v3';
+const STATIC_CACHE = 'walentynki-static-v4';
+const IMAGE_CACHE = 'walentynki-images-v4';
 
 const CORE_ASSETS = [
   './',
@@ -50,6 +50,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  if (url.pathname.endsWith('/admin-panel.json')) {
+    event.respondWith(networkFirstAsset(request, STATIC_CACHE));
+    return;
+  }
+
   event.respondWith(staleWhileRevalidate(request, STATIC_CACHE));
 });
 
@@ -81,6 +86,21 @@ async function networkFirstPage(request) {
   }
 }
 
+async function networkFirstAsset(request, cacheName) {
+  const cache = await caches.open(cacheName);
+
+  try {
+    const fresh = await fetch(request, { cache: 'no-store' });
+    if (fresh && fresh.ok) {
+      cache.put(request, fresh.clone());
+    }
+    return fresh;
+  } catch {
+    const cached = await cache.match(request);
+    return cached || Response.error();
+  }
+}
+
 async function staleWhileRevalidate(request, cacheName) {
   const cache = await caches.open(cacheName);
   const cached = await cache.match(request);
@@ -96,5 +116,3 @@ async function staleWhileRevalidate(request, cacheName) {
 
   return cached || networkPromise || Response.error();
 }
-
-

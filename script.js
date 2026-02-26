@@ -385,7 +385,8 @@ function checkPassword() {
         dailyQuote: 'dailyQuoteV1',
         usedCoupons: 'usedCouponsV1',
         dailyLoginPing: 'dailyLoginPingV1',
-        dailyGiftDate: 'dailyGiftDateV1'
+        dailyGiftDate: 'dailyGiftDateV1',
+        seenGifts: 'seenGiftsV1'
     };
 
     const dailyGifts = [
@@ -608,6 +609,23 @@ function checkPassword() {
         writeJson(STORAGE.dailyQuote, state);
     }
 
+    function getUniqueGiftIndex() {
+        let available = readJson(STORAGE.seenGifts, null);
+        const hasInvalidIndex = Array.isArray(available)
+            && available.some((idx) => !Number.isInteger(idx) || idx < 0 || idx >= dailyGifts.length);
+
+        if (!Array.isArray(available) || available.length === 0 || hasInvalidIndex) {
+            available = [];
+            for (let i = 0; i < dailyGifts.length; i++) available.push(i);
+        }
+
+        const randomIdx = Math.floor(Math.random() * available.length);
+        const actualIdx = available[randomIdx];
+        available.splice(randomIdx, 1);
+        writeJson(STORAGE.seenGifts, available);
+        return actualIdx;
+    }
+
     function refreshDailyUI() {
         const drawBtn = document.getElementById('drawBtn');
         const lockBtn = document.getElementById('dailyLockBtn');
@@ -699,8 +717,8 @@ function checkPassword() {
             return;
         }
 
-        const randomIdx = Math.floor(Math.random() * dailyGifts.length);
-        const reward = dailyGifts[randomIdx];
+        const rewardIdx = getUniqueGiftIndex();
+        const reward = dailyGifts[rewardIdx];
 
         giftIcon.style.transform = 'scale(1.2) rotate(10deg)';
         setTimeout(() => {
